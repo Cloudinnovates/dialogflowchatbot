@@ -1,0 +1,14 @@
+<li class="list-group-item">
+  <img [src]="message.avatar" class="avatar"/>
+  <!--<img src="./../../../assets/images/user.png">-->
+  <div class="message">
+    {{message.content}}
+  </div>
+  <div class="timeform">
+    <p *ngIf="message.link">
+      <a href={{message.link}}>Link</a>
+    </p>
+    <i class="fa fa-clock-o" aria-hidden="true"></i>
+    <span class="timestamp">at {{message.timestamp | date : 'medium' }}</span>
+  </div>
+</li>
