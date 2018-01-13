@@ -2,14 +2,15 @@ import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
 import { ApiAiClient } from 'api-ai-javascript';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-// import {Message} from './chat/models/message';
 
 export class ChatMessage {
   public link: string;
   public timestamp: Date;
   public avatar: string;
+  // public sentBy: string;
+
   constructor(public content: string, public sentBy: string) {
-    if (this.sentBy == 'user') {
+    if (this.sentBy === 'user') {
       this.avatar = './../../../assets/images/user.png';
     } else {
       this.avatar = './../../../assets/images/bot.png';
@@ -26,13 +27,16 @@ export class ChatService {
 
   constructor() { }
 
-  converse(msg: string) {
-    const userMessage = new ChatMessage(msg, 'user');
-    userMessage.timestamp = new Date();
+  converse(msg: ChatMessage) {
+    msg.timestamp = new Date();
     console.log('Send message', msg);
-    this.update(userMessage);
+    this.update(msg);
 
-    return this.client.textRequest(msg)
+    if(msg.sentBy === 'welcome') {
+      return;
+    }
+    // const userMessage = new ChatMessage(msg, 'user');
+    return this.client.textRequest(msg.content)
       .then(res => {
         const speech = res.result.fulfillment.speech;
         const linkifiedSpeech = this.linkify(speech);

@@ -11,25 +11,22 @@ import 'rxjs/add/operator/scan';
 })
 export class ChatComponent implements OnInit {
 
-  public message : Message;
+  public message : ChatMessage;
   // public messages : Message[];
   messages: Observable<ChatMessage[]>;
 
   constructor(private chatService: ChatService) { }
 
   ngOnInit() {
-    const userImage = require('./../../../assets/images/user.png')
-    const botImage = require('./../../../assets/images/bot.png')
-    this.message = new Message('', null, userImage);
-    // this.messages = [
-    //   new Message('Welcome to chatbot universe', new Date(), botImage)
-    // ];
+    const welcome_message = new ChatMessage('Welcome to Grange Virtual Private Assistant. I can help you to ' +
+      'RESET your password or UNLOCK your account. Please let me know what I can do for you?', 'welcome');
+    this.sendMessage(welcome_message);
     this.messages = this.chatService.conversation.asObservable()
       .scan((acc, val) => acc.concat(val) );
   }
 
-  sendMessage(chatMessage: Message) {
-    this.chatService.converse(chatMessage.content);
+  sendMessage(chatMessage: ChatMessage) {
+    this.chatService.converse(chatMessage);
   }
 
 }

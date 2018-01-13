@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Message} from '../models/message';
+import {isNullOrUndefined} from 'util';
 
 @Component({
   selector: 'app-message-form',
@@ -25,10 +26,10 @@ export class MessageFormComponent implements OnInit {
   }
 
   public sendMessage(): void {
-    // get text, create a new message every time and add it
-    // this.message.content = this.formValue;
-    // this.message.timestamp = new Date();
-    // this.messages.push(this.message);
+    if(isNullOrUndefined(this.formValue) || this.formValue.length <= 0) {
+      return;
+    }
+
     this.message = new Message(this.formValue, new Date(), './../../../assets/images/user.png');
     this.sendMessageEvent.emit(this.message);
     this.formValue = '';

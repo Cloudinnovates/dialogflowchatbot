@@ -1,14 +1,14 @@
-<li class="list-group-item">
-  <img [src]="message.avatar" class="avatar"/>
-  <!--<img src="./../../../assets/images/user.png">-->
-  <div class="message">
-    {{message.content}}
+<div class="row" style="margin-top: 10px;margin-bottom: 5px">
+  <div class="col-2">
+    <img [src]="message.avatar" class="avatar"/>
   </div>
-  <div class="timeform">
-    <p *ngIf="message.link">
-      <a href={{message.link}}>Link</a>
-    </p>
-    <i class="fa fa-clock-o" aria-hidden="true"></i>
-    <span class="timestamp">at {{message.timestamp | date : 'medium' }}</span>
+  <div class="col-8" [ngClass]="cardMarginByUser()">
+    <div class="card text-white" style="padding: 15px; border-radius: 25px" [ngClass]="cardBackgroundByUser()">
+      <div class="card-body">{{message.content}}</div>
+    </div>
+    <div class="card-footer" *ngIf="message.link">
+        <a href={{message.link}} target="_blank">Link</a>
+    </div>
   </div>
-</li>
+  <br>
+</div>
